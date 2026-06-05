@@ -24,6 +24,24 @@ public class Board {
             }
         }
     }
+    public void print() {
+
+        System.out.println("_______");
+
+        for (int row = 0; row < 3; row++) {
+
+            System.out.print("|");
+
+            for (int column = 0; column < 3; column++) {
+
+                System.out.print(cells[row][column] + "|");
+            }
+
+            System.out.println();
+        }
+
+        System.out.println("-------");
+    }
 
     public char[][] getCells() {
         return cells;
