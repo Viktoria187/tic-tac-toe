@@ -1,17 +1,57 @@
 package at.technikum;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.Scanner;
+
 public class Main {
 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Game game = new Game();
 
-        public static void main(String[] args) {
+        boolean playAgain = true;
 
-            Board board = new Board();
+        while (playAgain) {
+            boolean gameOver = false;
 
-            board.place(1, 1, 'X');
-            board.place(0, 0, 'O');
+            while (!gameOver) {
+                System.out.println("Current Player: " + game.getCurrentPlayer().getMarker());
+                game.getBoard().print();
 
-            board.print();
+                System.out.print("row (0-2): ");
+                int row = scanner.nextInt();
+
+                System.out.print("column (0-2): ");
+                int column = scanner.nextInt();
+
+                char marker = game.getCurrentPlayer().getMarker();
+                boolean validMove = game.makeMove(row, column);
+
+                if (!validMove) {
+                    System.out.println("Invalid move!");
+                    continue;
+                }
+
+                if (game.hasWinner(marker)) {
+                    game.getBoard().print();
+                    System.out.println("Player " + marker + " wins!");
+                    gameOver = true;
+                } else if (game.isDraw()) {
+                    game.getBoard().print();
+                    System.out.println("Draw!");
+                    gameOver = true;
+                }
+            }
+
+            System.out.print("Start new game? (y/n): ");
+            String answer = scanner.next();
+
+            if (answer.equalsIgnoreCase("y")) {
+                game.startNewGame();
+            } else {
+                playAgain = false;
+            }
         }
+
+        System.out.println("Goodbye!");
     }
+}
